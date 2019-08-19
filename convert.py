@@ -3,7 +3,8 @@ import csv
 
 
 def main():
-    parser = argparse.ArgumentParser(description='YOLO2AutoML: Convert a YOLO file to AutoML format.')
+    parser = argparse.ArgumentParser(
+        description='YOLO2AutoML: Convert a YOLO file to AutoML format for Cloud AutoML Vision Object Detection.')
     parser.add_argument('yolo_filepath', help='Input a YOLO file path. (e.g. yolo.txt)')
     parser.add_argument('automl_filepath', help='Input an AutoML exported file path. (e.g. export.csv)')
     parser.add_argument('-o', '--output', default='output.csv',

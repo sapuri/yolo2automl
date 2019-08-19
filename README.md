@@ -1,12 +1,13 @@
 # YOLO2AutoML
-Convert a YOLO file to AutoML format.
+Convert a YOLO file to AutoML format for Cloud AutoML Vision Object Detection.
 
 ## Usage
 
 ```bash
 usage: convert.py [-h] [-o OUTPUT] yolo_filepath automl_filepath
 
-YOLO2AutoML: Convert a YOLO file to AutoML format.
+YOLO2AutoML: Convert a YOLO file to AutoML format for Cloud AutoML Vision
+Object Detection.
 
 positional arguments:
   yolo_filepath         Input a YOLO file path. (e.g. yolo.txt)

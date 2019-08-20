@@ -7,12 +7,14 @@ def main():
         description='YOLO2AutoML: Convert a YOLO file to AutoML format for Cloud AutoML Vision Object Detection.')
     parser.add_argument('yolo_filepath', help='Input a YOLO file path. (e.g. yolo.txt)')
     parser.add_argument('automl_filepath', help='Input an AutoML exported file path. (e.g. export.csv)')
+    parser.add_argument('label', help='Input the label name. (e.g. car)')
     parser.add_argument('-o', '--output', default='output.csv',
                         help='Input the output file name. (default: output.csv)')
 
     args = parser.parse_args()
     yoro_filepath = args.yolo_filepath
     automl_filepath = args.automl_filepath
+    label = args.label
     output_filename = args.output
 
     yoro_lines = []
@@ -32,7 +34,7 @@ def main():
     output_lines = []
     for i, line in enumerate(yoro_lines):
         spl = automl_lines[i].split(',')
-        output_line = [spl[0], spl[1], spl[2]]
+        output_line = [spl[0], spl[1], label]
         for j, value in enumerate(line.split(',')):
             output_line.append(value)
         output_lines.append(output_line)
@@ -50,12 +52,12 @@ def convert(line: str) -> str:
     # YOLO format: 1 0.365234 0.541016 0.386719 0.847656
     # AutoML format: TRAIN,gs://cloud-ml-data/img/openimage/2851/11476419305_7b73a0128c_o.jpg,Baked goods,0.56,0.25,0.97,0.25,0.97,0.50,0.56,0.50
 
-    _, x1, y1, x2, y2 = line.split(' ')
-    x1 = round(float(x1), 2)
-    y1 = round(float(y1), 2)
-    x2 = round(float(x2), 2)
-    y2 = round(float(y2), 2)
-    return f'{x1},{y1},{x2},{y1},{x2},{y2},{x1},{y2}'
+    _, x, y, w, h = line.split(' ')
+    x = float(x)
+    y = float(y)
+    w = float(w)
+    h = float(h)
+    return f'{round(float(x - w / 2), 2)},{round(float(y - h / 2), 2)}, {round(float(x + w / 2), 2)}, {round(float(y - h / 2), 2)}, {round(float(x + w / 2), 2)}, {round(float(y + h / 2), 2)}, {round(float(x - w / 2), 2)}, {round(float(y + h / 2), 2)}'
 
 
 def export2csv(output_lines: list, filename: str):
